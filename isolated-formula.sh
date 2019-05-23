@@ -1,23 +1,23 @@
 #!env zsh
 
-declare -A map
+typeset -A map
 
-for formula in `brew list`; do
+for formula (`brew list`) {
     map[$formula]=0
-done
+}
 
-for deps in `brew deps --installed`; do
-    for formula in $deps; do
-        if [ $formula[-1] != ':' ]; then
+for deps (`brew deps --installed`) {
+    for formula ($deps) {
+        if [[ $formula[-1] != ':' ]] {
             ((map[$formula]++))
-        fi
-    done
-done
+        }
+    }
+}
 
-for formula in `brew list`; do
-    if [ $map[$formula] -eq 0 ]; then
+for formula count (${(kv)map}) {
+    if (( $count == 0 )) {
         echo $formula
-    fi
-done
+    }
+}
 
 exit 0
